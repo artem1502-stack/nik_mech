@@ -118,10 +118,12 @@ int main(void)
 	print_array(a, m);
 	print_array(b, n);
 
+	f = fopen("output.txt", "w");
 	if (is_less(a, b, m, n))
-		printf("A < B\n");
+		fprintf(f, "YES\n");
 	else
-		printf("A не < B\n");
+		fprintf(f, "NO\n");
+	fclose(f);
 	free(a);
 	free(b);
 	return 0;
