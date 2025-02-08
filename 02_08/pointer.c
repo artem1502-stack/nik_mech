@@ -14,11 +14,25 @@ void bad_plus_one(int b)
 	b += 1;
 }
 
+double *read_array(FILE *f, int *n)
+{
+	double *array;
+	int len;
+
+	if (fscanf(f, "%d", &len) != 1)
+	{
+		printf("ERROR EMPTY FILE\n");
+		return NULL;
+	}
+	*n = len;
+
+}
+
 int main(void)
 {
 	int x[N];
 	int *y;
-	int i;
+	int i, n;
 
 
 	y = (int *)malloc(N * sizeof(int));
