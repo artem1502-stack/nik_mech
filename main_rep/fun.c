@@ -9,6 +9,15 @@ void print_array(int *array, int n)
 	printf("\n");
 }
 
+void fprint_array(FILE *f, int *array, int n)
+{
+	int i;
+
+	for(i = 0; i < n; ++i)
+		fprintf(f, "%d ", array[i]);
+	fprintf(f, "\n");
+}
+
 int is_in(int *arr, int n, int x)
 {
 	int i;
@@ -72,6 +81,24 @@ void sort_array(int *array, int n)
 			}
 }
 
+int *copy_array(int *array, int n)
+{
+	int *new_array, i;
+
+	new_array = (int *)malloc(n * sizeof(int));
+	for(i = 0; i < n; ++i)
+		new_array[i] = array[i];
+	return new_array;
+}
+
+void add_coefficient(int *a, int *b, int n, int c)
+{
+	int i;
+
+	for(i = 0; i < n; ++i)
+		a[i] += b[i] * c;
+}
+
 void print_array_double(double *array, int n)
 {
 	int i;
@@ -79,6 +106,15 @@ void print_array_double(double *array, int n)
 	for(i = 0; i < n; ++i)
 		printf("%.3lf ", array[i]);
 	printf("\n");
+}
+
+void fprint_array_double(FILE *f, double *array, int n)
+{
+	int i;
+
+	for(i = 0; i < n; ++i)
+		fprintf(f, "%.3lf ", array[i]);
+	fprintf(f, "\n");
 }
 
 double *read_array_double(FILE *f, int *n)
@@ -148,3 +184,5 @@ void sort_array_decreasing_double(double *array, int n)
 				array[j] = x;
 			}
 }
+
+
