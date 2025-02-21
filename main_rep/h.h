@@ -21,13 +21,14 @@ int		*read_array(FILE *f, int *n);
 int		*read_array_smart(FILE *f, int *n);
 
 //		double
+void	add_coefficient_double(double *a, double *b, int n, int c);
 void	print_array_double(double *array, int n);
 void	fprint_array_double(FILE *f, double *array, int n);
 void	sort_array_double(double *array, int n);
 void	sort_array_decreasing_double(double *array, int n);
 double	*read_array_double(FILE *f, int *n);
 double	*read_array_smart_double(FILE *f, int *n);
-
+int		get_sign(double x);
 
 
 #endif

@@ -99,6 +99,24 @@ void add_coefficient(int *a, int *b, int n, int c)
 		a[i] += b[i] * c;
 }
 
+int get_sign(double x)
+{
+	if (x > 0)
+		return 1;
+	else if (x < 0)
+		return -1;
+	else
+		return 0;
+}
+
+void add_coefficient_double(double *a, double *b, int n, int c)
+{
+	int i;
+
+	for(i = 0; i < n; ++i)
+		a[i] += b[i] * c;
+}
+
 void print_array_double(double *array, int n)
 {
 	int i;

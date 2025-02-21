@@ -1,21 +1,19 @@
 #include "h.h"
 
 /*
-9.  Пусть даны два массива целых чисел А и В одинаковой длины N.
-Будем говорить, что эти два массива независимы,
-если значения разностей A[i]-B[i] не повторяются,
-т.е. все различны. Будем считать, что массивы, состоящие из 
-одного элемента, независимы. Для двух заданных массивов 
-А и В нужно определить, являются ли они независимыми в
-исходном состоянии и после упорядочивания каждого из этих
-массивов по возрастанию. 
+10.  Пусть даны два массива целых чисел А и В длиной M и N
+соответственно. В объединении этих массивов все элементы 
+различны. Будем говорить, что массив А разделяется массивом В, 
+если в упорядоченном множестве объединенных значений элементов
+этих двух массивов элементы массива А не стоят рядом друг с 
+другом. Будем считать, что в случае, если массив А 
+состоит из одного элемента, то массив А разделяется массивом В. 
+Например, массив А={1,3,8} разделяется массивом 
+В={0,2,4,5}, но не разделяется массивом В1={0,4,5,10}.  
 
-Ответом являются два слова вида YES NO:
-первое (YES или NO) обозначает 
-независимость исходных массивов,
-второе (YES или NO) обозначает независимость 
-массивов после их упорядочивания. 
-Эти слова надо вывести в файл output.txt.
+Ответом является слово YES, если массив А разделяется массивом В, 
+и слово NO в противном случае. 
+Это слово надо вывести в файл output.txt.
 
 */
 
@@ -29,50 +27,68 @@ int is_unique(int *arr, int n)
 	return 1;
 }
 
-void check_arrays(int* arr_a, int* arr_b, int n, FILE *f)
+int check_arrays(int* arr_a, int* arr_b, int n_a, int n_b)
 {
-	int *temp;
+	int i = 0, j = 0, flag_a;
 
-	temp = copy_array(arr_a, n);
-	add_coefficient(temp, arr_b, n, -1);
-	sort_array(temp, n);
-	if (is_unique(temp, n))
-		fprintf(f, "YES ");
+	if ((n_a == 0) || ((n_a == 1) && (n_b == 0)))
+		return 1;
+	if (n_b == 0)
+		return 0;
+
+
+	if (arr_a[0] < arr_b[0])
+	{
+		i++;
+		flag_a = 1;
+	}
 	else
-		fprintf(f, "NO ");
-	free(temp);
-	sort_array(arr_a, n);
-	sort_array(arr_b, n);
-	add_coefficient(arr_a, arr_b, n, -1);
-	sort_array(arr_a, n);
-	if (is_unique(arr_a, n))
-		fprintf(f, "YES");
-	else
-		fprintf(f, "NO");
+	{
+		j++;
+		flag_a = 0;
+	}
+
+	while((i < n_a) && (j < n_b))
+	{
+		if (arr_a[i] < arr_b[j])
+		{
+			if (flag_a)
+				return 0;
+			i++;
+			flag_a = 1;
+		}
+		else
+		{
+			flag_a = 0;
+			j++;
+		}
+	}
+	if ((i >= n_a) || ((i == n_a - 1) && (!flag_a)))
+		return 1;
+	return 0;
 }
 
 int main(void)
 {
 	int *a, *b;
-	int m, n;
+	int n_a, n_b;
 	FILE *f;
 
 	f = fopen("f_a", "r");
-	a = read_array_smart(f, &m);
+	a = read_array_smart(f, &n_a);
 	fclose(f);
 	f = fopen("f_b", "r");
-	b = read_array_smart(f, &n);
+	b = read_array_smart(f, &n_b);
 	fclose(f);
-	if (n != m)
-	{
-		printf("Error. Wrong sizes\n");
-		free(a);
-		free(b);
-		return -1;
-	}
+
+	sort_array(a, n_a);
+	sort_array(b, n_b);
 
 	f = fopen("output.txt", "w");
-	check_arrays(a, b, n, f);
+	if (check_arrays(a, b, n_a, n_b))
+		fprintf(f, "YES");
+	else
+		fprintf(f, "NO");
 	fclose(f);
 	free(a);
 	free(b);
