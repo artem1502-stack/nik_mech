@@ -49,16 +49,45 @@ int main(void)
 	FILE *f;
 
 	f = fopen("f_a", "r");
+	if (!f)
+	{
+		printf("File Error\n");
+		return -1;
+	}
 	a = read_array_smart(f, &n_a);
+	if (!a)
+	{
+		printf("Memory Error\n");
+		return -1;
+	}
 	fclose(f);
 	f = fopen("f_b", "r");
+	if (!f)
+	{
+		free(a);
+		printf("File Error\n");
+		return -1;
+	}
 	b = read_array_smart(f, &n_b);
+	if (!b)
+	{
+		free(a);
+		printf("Memory Error\n");
+		return -1;
+	}
 	fclose(f);
 
 	sort_array(a, n_a);
 	sort_array(b, n_b);
 
 	f = fopen("output.txt", "w");
+	if (!f)
+	{
+		free(a);
+		free(b);
+		printf("File Error\n");
+		return -1;	
+	}
 	fprintf(f, "%d", check_arrays(a, b, n_a, n_b));
 	fclose(f);
 	free(a);

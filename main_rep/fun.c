@@ -53,6 +53,9 @@ int *read_array_smart(FILE *f, int *n)
 	int len = 0, max_len = 256;
 
 	array = (int *)malloc(max_len * sizeof(int));
+	if (!array)
+		return NULL;
+
 	while (fscanf(f, "%d", &(array[len])) == 1)
 	{
 		len++;
